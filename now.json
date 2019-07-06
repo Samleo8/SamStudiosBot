@@ -1,6 +1,6 @@
 {
     "name": "SamStudiosBot",
-    "version": 2,
+    "version": 1,
     "env": {
         "BOT_TOKEN": "@samstudiosbot-api-key"
     },

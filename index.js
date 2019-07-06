@@ -37,7 +37,7 @@ let getGameURL = (nm)=>{
 	//nm = nm.toLowerCase();
 	switch (nm) {
 		case "SoaringSheep":
-			return "https://samleo8.github.io/SoaringSheep"
+			return "https://samleo8.github.io/SoaringSheep";
 		default:
 			return null;
 	}
