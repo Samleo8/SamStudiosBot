@@ -26,6 +26,8 @@ bot.on('callback_query', (ctx)=>{
 	let cb = ctx.callbackQuery;
 
 	console.log(JSON.stringify(cb, null, 2));
+
+	log(cb.game_short_name, "GAME SHORT NAME")
 });
 
 //================EXPORT BOT=================//
