@@ -25,21 +25,37 @@ bot.use(Telegraf.log());
 bot.on('callback_query', (ctx)=>{
 	let cb = ctx.callbackQuery;
 
-	console.log(JSON.stringify(cb, null, 2));
+	//console.log(JSON.stringify(cb, null, 2));
 
 	let gameURL = getGameURL(cb.game_short_name);
 
-	return ctx.answerCallbackQuery(null, gameURL)
+	console.log("Game URL", gameURL);
+
+	return ctx.answerCbQuery(null, gameURL)
+});
+
+//Inline Queries
+const validGames = [ "SoaringSheep" ];
+
+bot.on('inline_query', (ctx)=>{
+	log(JSON.stringify(ctx.inlineQuery,null,2), "QUERY");
+
+	let results = validGames.map((_game)=> ({
+		"type": "game",
+		"game_short_name": _game
+	}));
+
+	log(JSON.stringify(results,null,2), "Results")
+
+	return ctx.answerInlineQuery(results);
 });
 
 //Get Game URL
 let getGameURL = (nm)=>{
-	//nm = nm.toLowerCase();
 	switch (nm) {
-		case "SoaringSheep":
-			return "https://samleo8.github.io/SoaringSheep";
+		//Only consider the special cases
 		default:
-			return null;
+			return "https://samleo8.github.io/"+nm;
 	}
 }
 
