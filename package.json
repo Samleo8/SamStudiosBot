@@ -1,0 +1,31 @@
+{
+	"name": "SamStudiosBot",
+	"version": "1.0.0",
+	"description": "Telegram bot for Sam's games",
+	"main": "index.js",
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1",
+		"now-start": "micro-bot -d ${NOW_URL}",
+		"start": "now -e BOT_TOKEN=@biblequizzle-api-key --public"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/Samleo8/SamStudiosBot.git"
+	},
+	"keywords": [
+		"games",
+		"telegram",
+		"bot"
+	],
+	"author": "Samuel Leong <samleocw+telegram@gmail.com>",
+	"license": "ISC",
+	"bugs": {
+		"url": "https://github.com/Samleo8/BibleQuizzle/issues"
+	},
+	"homepage": "https://github.com/Samleo8/BibleQuizzle#readme",
+	"dependencies": {
+		"axios": "^0.18.1",
+		"micro-bot": "^2.5.3",
+		"telegraf": "^3.30.1"
+	}
+}
