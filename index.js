@@ -34,9 +34,9 @@ bot.on('callback_query', (ctx)=>{
 
 //Get Game URL
 let getGameURL = (nm)=>{
-	nm = nm.toLowerCase();
+	//nm = nm.toLowerCase();
 	switch (nm) {
-		case "soaring sheep":
+		case "SoaringSheep":
 			return "https://samleo8.github.io/SoaringSheep"
 		default:
 
