@@ -1,0 +1,12 @@
+{
+    "name": "SamStudiosBot",
+    "version": 1,
+    "env": {
+        "BOT_TOKEN": "@samstudiosbot-api-key"
+    },
+    "build": {
+        "env": {
+            "BOT_TOKEN": "@samstudiosbot-api-key"
+        }
+    }
+}
