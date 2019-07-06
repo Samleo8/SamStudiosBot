@@ -27,8 +27,21 @@ bot.on('callback_query', (ctx)=>{
 
 	console.log(JSON.stringify(cb, null, 2));
 
-	log(cb.game_short_name, "GAME SHORT NAME")
+	let gameURL = getGameURL(cb.game_short_name);
+
+	return ctx.answerCallbackQuery(null, gameURL)
 });
+
+//Get Game URL
+let getGameURL = (nm)=>{
+	nm = nm.toLowerCase();
+	switch (nm) {
+		case "soaring sheep":
+			return "https://samleo8.github.io/SoaringSheep"
+		default:
+
+	}
+}
 
 //================EXPORT BOT=================//
 module.exports = bot;
