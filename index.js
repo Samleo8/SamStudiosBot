@@ -37,13 +37,20 @@ bot.on('callback_query', (ctx)=>{
 const validGames = [ "SoaringSheep" ];
 
 bot.on('inline_query', (ctx)=>{
-	log(JSON.stringify(ctx.inlineQuery,null,2), "QUERY");
+	//log(JSON.stringify(ctx.inlineQuery,null,2), "QUERY");
 
-	let results = validGames.map((_game)=> ({
-		id: 0, //???
-		type: "game",
-		game_short_name: _game
-	}));
+	let _id = 0;
+	let qry = ctx.inlineQuery.query.toLowerCase();
+
+	let results = validGames
+		.filter((item)=>{
+			return item.toLowerCase().indexOf(qry)!=-1
+		})
+		.map((_game)=> ({
+			id: _id++, //need to set an ID
+			type: "game",
+			game_short_name: _game
+		}));
 
 	log(JSON.stringify(results,null,2), "Results")
 
