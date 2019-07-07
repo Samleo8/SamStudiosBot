@@ -31,7 +31,7 @@ bot.on('callback_query', (ctx)=>{
 
 	console.log("Game URL", gameURL);
 
-	return ctx.answerCbQuery(null, gameURL)
+	return ctx.answerCallbackQuery(null, gameURL)
 });
 
 //Inline Queries
