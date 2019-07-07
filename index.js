@@ -29,9 +29,8 @@ bot.on('callback_query', (ctx)=>{
 
 	let gameURL = getGameURL(cb.game_short_name);
 
-	console.log("Game URL", gameURL);
-
-	return ctx.answerCallbackQuery(null, gameURL)
+	//WEIRD BUG: ignore whatever is said about using `answerCbQuery` instead; it doesn't work
+	return ctx.answerCallbackQuery(null, gameURL);
 });
 
 //Inline Queries
@@ -41,8 +40,9 @@ bot.on('inline_query', (ctx)=>{
 	log(JSON.stringify(ctx.inlineQuery,null,2), "QUERY");
 
 	let results = validGames.map((_game)=> ({
-		"type": "game",
-		"game_short_name": _game
+		id: 0, //???
+		type: "game",
+		game_short_name: _game
 	}));
 
 	log(JSON.stringify(results,null,2), "Results")
