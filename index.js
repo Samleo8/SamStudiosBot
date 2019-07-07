@@ -52,8 +52,6 @@ bot.on('inline_query', (ctx)=>{
 			game_short_name: _game
 		}));
 
-	log(JSON.stringify(results,null,2), "Results")
-
 	return ctx.answerInlineQuery(results);
 });
 
