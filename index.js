@@ -27,7 +27,7 @@ bot.on('callback_query', (ctx)=>{
 
 	//console.log(JSON.stringify(cb, null, 2));
 
-	let gameURL = getGameURL(cb.game_short_name);
+	let gameURL = getGameURL(cb.game_short_name || cb.data);
 
 	//WEIRD BUG: ignore whatever is said about using `answerCbQuery` instead; it doesn't work
 	return ctx.answerCallbackQuery(null, gameURL);
@@ -53,6 +53,20 @@ bot.on('inline_query', (ctx)=>{
 		}));
 
 	return ctx.answerInlineQuery(results);
+});
+
+//Bot Commands
+bot.start((ctx)=>{
+	let buttons = validGames.map((nm) => {
+		Markup.callbackButton(nm.fromTitleCase(), nm);
+	});
+
+	ctx.reply(
+		"<b>Select a Game to Play!</b>",
+		Extra.HTML().markup(
+			(m) => m.inlineKeyboard(buttons, { columns: 2 })
+		)
+	);
 });
 
 //Get Game URL
@@ -127,6 +141,12 @@ String.prototype.toTitleCase = function() {
       uppers[i].toUpperCase());
 
   return str;
+}
+
+String.prototype.fromTitleCase = function() {
+    str = this.replace(/([a-z])([A-Z])/g, '$1 $2');
+    str = str.replace(/([A-Z])([A-Z][a-z])/g, '$1 $2')
+    return str;
 }
 
 /*CONVERSION OF EXCEL QUESTIONS TO JSON:
