@@ -35,6 +35,8 @@ bot.on('callback_query', (ctx)=>{
 
 //Inline Queries
 const validGames = [ "SoaringSheep" ];
+const gameButtons = validGames.map((nm) => Markup.callbackButton(nm/*.fromTitleCase()*/, nm) );
+
 
 bot.on('inline_query', (ctx)=>{
 	//log(JSON.stringify(ctx.inlineQuery,null,2), "QUERY");
@@ -57,11 +59,9 @@ bot.on('inline_query', (ctx)=>{
 
 //Bot Commands
 bot.command('start', (ctx)=>{
-	let buttons = validGames.map((nm) => {
-		Markup.callbackButton(nm.fromTitleCase(), nm);
-	});
+	console.log(buttons);
 
-	ctx.reply(
+	return ctx.reply(
 		"<b>Select a Game to Play!</b>",
 		Extra.HTML().markup(
 			(m) => m.inlineKeyboard(buttons, { columns: 2 })
