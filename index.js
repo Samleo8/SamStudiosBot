@@ -35,7 +35,7 @@ bot.on('callback_query', (ctx)=>{
 });
 
 //Inline Queries
-const validGames = [ "SoaringSheep" ];
+const validGames = [ "SoaringSheep", "SisyphusSheep" ];
 const gameButtons = validGames.map((nm) => Markup.callbackButton(
 	nm.replace(/([a-z])([A-Z])/g, '$1 $2').replace(/([A-Z])([A-Z][a-z])/g, '$1 $2'),
 	nm
