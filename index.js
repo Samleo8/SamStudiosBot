@@ -56,7 +56,7 @@ bot.on('inline_query', (ctx)=>{
 });
 
 //Bot Commands
-bot.start((ctx)=>{
+bot.command('start', (ctx)=>{
 	let buttons = validGames.map((nm) => {
 		Markup.callbackButton(nm.fromTitleCase(), nm);
 	});
