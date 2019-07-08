@@ -59,12 +59,12 @@ bot.on('inline_query', (ctx)=>{
 
 //Bot Commands
 bot.command('start', (ctx)=>{
-	console.log(buttons);
+	console.log(gameButtons);
 
 	return ctx.reply(
 		"<b>Select a Game to Play!</b>",
 		Extra.HTML().markup(
-			(m) => m.inlineKeyboard(buttons, { columns: 2 })
+			(m) => m.inlineKeyboard(gameButtons, { columns: 2 })
 		)
 	);
 });
