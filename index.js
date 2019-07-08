@@ -26,8 +26,9 @@ bot.on('callback_query', (ctx)=>{
 	let cb = ctx.callbackQuery;
 
 	//console.log(JSON.stringify(cb, null, 2));
+	let urlName = (typeof cb.game_short_name == "undefined")?cb.data:cb.game_short_name;
 
-	let gameURL = getGameURL(cb.game_short_name || cb.data);
+	let gameURL = getGameURL(urlName);
 
 	//WEIRD BUG: ignore whatever is said about using `answerCbQuery` instead; it doesn't work
 	return ctx.answerCallbackQuery(null, gameURL);
@@ -71,6 +72,8 @@ bot.command('start', (ctx)=>{
 
 //Get Game URL
 let getGameURL = (nm)=>{
+	console.log("Game URL", nm);
+
 	switch (nm) {
 		//Only consider the special cases
 		default:
