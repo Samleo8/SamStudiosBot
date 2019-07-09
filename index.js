@@ -32,7 +32,7 @@ bot.on('callback_query', (ctx)=>{
 	console.log("Returned game url", urlName);
 
 	//WEIRD BUG: ignore whatever is said about using `answerCbQuery` instead; it doesn't work
-	return ctx.answerCallbackQuery(null, gameURL);
+	return ctx.answerGameQuery(gameURL);
 });
 
 //Inline Queries
