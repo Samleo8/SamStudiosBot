@@ -25,8 +25,11 @@ bot.use(Telegraf.log());
 bot.on('callback_query', (ctx)=>{
 	let cb = ctx.callbackQuery;
 
-	//console.log(JSON.stringify(cb, null, 2));
-	let urlName = (typeof cb.game_short_name == "undefined")?cb.data:cb.game_short_name;
+	if(typeof cb.game_short_name == "undefined"){
+		return ctx.replyWithGame(cb.data);
+	}
+
+	let urlName = cb.game_short_name;
 
 	let gameURL = getGameURL(urlName);
 	console.log("Returned game url", gameURL);
@@ -36,8 +39,8 @@ bot.on('callback_query', (ctx)=>{
 });
 
 //Inline Queries
-const validGames = [ "SoaringSheep", "SisyphusSheep" ];
-const gameButtons = validGames.map((nm) => Markup.callbackButton(
+const validGames = [ "SoaringSheep" ];
+const inlineGameButtons = validGames.map((nm) => Markup.callbackButton(
 	nm.replace(/([a-z])([A-Z])/g, '$1 $2').replace(/([A-Z])([A-Z][a-z])/g, '$1 $2'),
 	nm
 ));
@@ -64,12 +67,10 @@ bot.on('inline_query', (ctx)=>{
 
 //Bot Commands
 bot.command('start', (ctx)=>{
-	console.log(gameButtons);
-
 	return ctx.reply(
 		"<b>Select a Game to Play!</b>",
 		Extra.HTML().markup(
-			(m) => m.inlineKeyboard(gameButtons, { columns: 2 })
+			(m) => m.inlineKeyboard(inlineGameButtons, { columns: 2 })
 		)
 	);
 });
