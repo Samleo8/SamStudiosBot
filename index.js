@@ -109,7 +109,11 @@ server.get("/highscore/:game/:score", function(req, res, next) {
 	let options;
 
 	let gameName = req.params.game;
-	if(!validGames.find(el => el === game)) return
+
+	if(!validGames.find(el => el === gameName)){
+		console.log(gameName+" Game not found");
+		return next();
+	}
 
 	if (query.message) {
 		//TODO: Might have to change
