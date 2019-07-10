@@ -37,9 +37,12 @@ bot.on('callback_query', (ctx)=>{
 
 	let urlName = cb.game_short_name;
 
-	let gameURL = getGameURL(urlName);
+	let queryID = cb.id;
+	let gameURL = getGameURL(urlName, queryID);
 
 	if(gameURL){
+		queries[queryID] = cb;
+		console.log(queryID);
 		return ctx.answerGameQuery(gameURL);
 	}
 	else{ //error or not found
@@ -85,7 +88,7 @@ bot.command('start', (ctx)=>{
 });
 
 //Get Game URL
-let getGameURL = (nm)=>{
+let getGameURL = (nm, queryID) => {
 	let found = validGames.find(el => el === nm);
 
 	if(!found) return false;
@@ -94,7 +97,7 @@ let getGameURL = (nm)=>{
 		//Only consider the special cases
 		//case: ?? return ??
 		default:
-			return "https://samleo8.github.io/"+nm;
+			return "https://samleo8.github.io/"+nm+"?id="+queryID;
 	}
 }
 
