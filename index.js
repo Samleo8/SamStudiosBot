@@ -26,8 +26,8 @@ bot.on('callback_query', (ctx)=>{
 	let cb = ctx.callbackQuery;
 
 	if(typeof cb.game_short_name == "undefined"){
-		ctx.answerCbQuery(cb.data.toString().fromTitleCase()+" selected!");
-		return ctx.replyWithGame(cb.data);
+		ctx.replyWithGame(cb.data);
+		return ctx.answerCbQuery(cb.data.toString().fromTitleCase()+" selected!");
 	}
 
 	let urlName = cb.game_short_name;
