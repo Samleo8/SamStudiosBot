@@ -26,6 +26,7 @@ bot.on('callback_query', (ctx)=>{
 	let cb = ctx.callbackQuery;
 
 	if(typeof cb.game_short_name == "undefined"){
+		ctx.answerCbQuery(cb.data+" selected!");
 		return ctx.replyWithGame(cb.data);
 	}
 
