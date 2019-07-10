@@ -86,7 +86,7 @@ bot.command('start', (ctx)=>{
 
 //Get Game URL
 let getGameURL = (nm)=>{
-	let found = validGames.find((el) => { return el == nm });
+	let found = validGames.find(el => el === nm);
 
 	if(!found) return false;
 
