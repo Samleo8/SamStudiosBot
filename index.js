@@ -55,7 +55,7 @@ bot.on('inline_query', (ctx)=>{
 
 	let results = validGames
 		.filter((item)=>{
-			return item.toLowerCase().indexOf(qry)!=-1
+			return item.toLowerCase().indexOf(qry)!=-1 || qry.length<=0;
 		})
 		.map((_game)=> ({
 			id: _id++, //need to set an ID
