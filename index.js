@@ -14,18 +14,23 @@ REFERENCES:
 
 //================LIBRARIES AND VARIABLES=================//
 
-//Initialising of Libraries
+//Initialising of Libraries for Telegram Bot
 const { Markup, Extra } = require('micro-bot');
 const Telegraf  = require('micro-bot');
 
 const bot = new Telegraf(process.env.BOT_TOKEN, { username: "SamStudiosBot" });
 bot.use(Telegraf.log());
 
+//Express Server to Handle Score Request from games
+const server = require('express');
+const port = process.env.PORT || 5000;
+let queries = {};
+
 //Callback Queries
 bot.on('callback_query', (ctx)=>{
 	let cb = ctx.callbackQuery;
 
-	if(typeof cb.game_short_name == "undefined"){
+	if(typeof cb.game_short_name === "undefined"){
 		ctx.replyWithGame(cb.data);
 		return ctx.answerCbQuery(cb.data.toString().fromTitleCase()+" selected!");
 	}
@@ -33,10 +38,13 @@ bot.on('callback_query', (ctx)=>{
 	let urlName = cb.game_short_name;
 
 	let gameURL = getGameURL(urlName);
-	console.log("Returned game url", gameURL);
 
-	//WEIRD BUG: ignore whatever is said about using `answerCbQuery` instead; it doesn't work
-	return ctx.answerGameQuery(gameURL);
+	if(gameURL){
+		return ctx.answerGameQuery(gameURL);
+	}
+	else{ //error or not found
+		return ctx.answerCbQuery("Game "+cb.game_short_name+" not found");
+	}
 });
 
 //Inline Queries
@@ -78,10 +86,13 @@ bot.command('start', (ctx)=>{
 
 //Get Game URL
 let getGameURL = (nm)=>{
-	console.log("Game URL", nm);
+	let found = validGames.find((el) => { return el == nm });
+
+	if(!found) return false;
 
 	switch (nm) {
 		//Only consider the special cases
+		//case: ?? return ??
 		default:
 			return "https://samleo8.github.io/"+nm;
 	}
