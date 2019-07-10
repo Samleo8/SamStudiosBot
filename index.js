@@ -57,7 +57,6 @@ const inlineGameButtons = validGames.map((nm) => Markup.callbackButton(
 	nm
 ));
 
-
 bot.on('inline_query', (ctx)=>{
 	//log(JSON.stringify(ctx.inlineQuery,null,2), "QUERY");
 
@@ -101,6 +100,31 @@ let getGameURL = (nm, queryID) => {
 	}
 }
 
+//================SERVER QUERIES FOR SETTLING HIGHSCORES=================//
+//TODO change to post
+server.get("/highscore/:game/:score", function(req, res, next) {
+	if (!Object.hasOwnProperty.call(queries, req.query.id)) return next();
+
+	let query = queries[req.query.id];
+	let options;
+
+	let gameName = req.params.game;
+	if(!validGames.find(el => el === game)) return
+
+	if (query.message) {
+		//TODO: Might have to change
+		options = {
+			chat_id: query.message.chat.id,
+			message_id: query.message.message_id
+		};
+	} else {
+		options = {
+			inline_message_id: query.inline_message_id
+		};
+	}
+
+	bot.setGameScore(query.from.id, parseInt(req.params.score), options);
+});
 //================EXPORT BOT=================//
 module.exports = bot;
 
