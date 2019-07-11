@@ -23,12 +23,8 @@ bot.use(Telegraf.log());
 
 //Express Server to Handle Score Request from games
 const Router = require('router');
-
 const router = Router();
 const bodyParser = require('body-parser');
-
-const score = router.route("/score");
-score.all(bodyParser.json());
 
 let queries = {};
 
@@ -109,8 +105,10 @@ let getGameURL = (nm, queryID) => {
 }
 
 //================SERVER QUERIES FOR SETTLING HIGHSCORES=================//
-//TODO change to post
-server.post("/score", function(req, res, next) {
+const score = router.route("/score");
+score.all(bodyParser.json());
+
+score.post("/score", function(req, res, next) {
 	console.log("Got something!");
 
 	if (!Object.hasOwnProperty.call(queries, req.body.id)) return next();
