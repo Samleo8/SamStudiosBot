@@ -25,7 +25,7 @@ bot.use(Telegraf.log());
 const Router = require('router');
 
 const router = Router();
-const bodyParser = require('bodyParser');
+const bodyParser = require('body-parser');
 
 const score = router.route("/score");
 score.all(bodyParser.json());
