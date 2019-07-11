@@ -16,16 +16,20 @@ REFERENCES:
 
 //Initialising of Libraries for Telegram Bot
 const { Markup, Extra } = require('micro-bot');
-const Telegraf  = require('micro-bot');
+const Telegraf = require('micro-bot');
 
 const bot = new Telegraf(process.env.BOT_TOKEN, { username: "SamStudiosBot" });
 bot.use(Telegraf.log());
 
 //Express Server to Handle Score Request from games
-const express = require('express');
+const Router = require('router');
 
-const server = express();
-const port = process.env.PORT || 5000;
+const router = Router();
+const bodyParser = require('bodyParser');
+
+const score = router.route("/score");
+score.all(bodyParser.json());
+
 let queries = {};
 
 //Callback Queries
@@ -106,20 +110,17 @@ let getGameURL = (nm, queryID) => {
 
 //================SERVER QUERIES FOR SETTLING HIGHSCORES=================//
 //TODO change to post
-server.get("/highscore/:game/:score", function(req, res, next) {
+server.post("/score", function(req, res, next) {
 	console.log("Got something!");
 
-	if (!Object.hasOwnProperty.call(queries, req.query.id)) return next();
+	if (!Object.hasOwnProperty.call(queries, req.body.id)) return next();
 
-	let query = queries[req.query.id];
-	let options;
+	let query = queries[req.body.id];
 
-	console.log(req.params);
+	let gameName = req.body.game;
+	let gameScore = parseInt(req.body.score);
 
-	let gameName = req.params.game;
-	let gameScore = parseInt(req.params.score);
-
-	console.log(gameName);
+	console.log(gameName+" "+gameScore);
 
 	if(!validGames.find(el => el === gameName)){
 		console.log(gameName+" Game not found");
@@ -130,16 +131,24 @@ server.get("/highscore/:game/:score", function(req, res, next) {
 		//TODO: Might have to change
 		bot.telegram.setGameScore(query.from.id, gameScore, query.message.chat_id, query.message.message_id)
 			.then((score) =>{
-			    console.log('Leaderboard: '+JSON.stringify(score))
+			    console.log('Leaderboard: '+JSON.stringify(score));
+				res.statusCode = 200;
+				res.end();
 			}).catch((err) =>{
-			    console.log('[ERROR] '+err)
+			    console.log('[ERROR] '+err);
+				res.statusCode = err.code || 500;
+				res.end(err.description);
 			})
 	} else {
-		bot.telegram.setGameScore(query.from.id, gameScore, query.message.inline_message_ids)
+		bot.telegram.setGameScore(query.from.id, gameScore, query.message.inline_message_id)
 			.then((score) =>{
-			    console.log('Leaderboard: '+JSON.stringify(score))
+			    console.log('Leaderboard: '+JSON.stringify(score));
+				res.statusCode = 200;
+				res.end();
 			}).catch((err) =>{
-			    console.log('[ERROR] '+err)
+			    console.log('[ERROR] '+err);
+				res.statusCode = err.code || 500;
+				res.end(err.description);
 			})
 	}
 
