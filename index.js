@@ -134,7 +134,7 @@ server.get("/highscore/:game/:score", function(req, res, next) {
 //================EXPORT BOT=================//
 module.exports = bot;
 
-server.listen(port);
+//server.listen(port);
 
 //================MISC. FUNCTIONS=================//
 //Logging
