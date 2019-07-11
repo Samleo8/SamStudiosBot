@@ -105,10 +105,10 @@ let getGameURL = (nm, queryID) => {
 }
 
 //================SERVER QUERIES FOR SETTLING HIGHSCORES=================//
-const score = router.route("/score");
-score.all(bodyParser.json());
+const scoreRoute = router.route('/score');
+scoreRoute.all(bodyParser.json());
 
-score.post("/score", function(req, res, next) {
+scoreRoute.post((req, res, next) => {
 	console.log("Got something!");
 
 	if (!Object.hasOwnProperty.call(queries, req.body.id)) return next();
@@ -149,8 +149,6 @@ score.post("/score", function(req, res, next) {
 				res.end(err.description);
 			})
 	}
-
-
 });
 //================EXPORT BOT=================//
 module.exports = bot;
