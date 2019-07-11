@@ -42,6 +42,8 @@ bot.on('callback_query', (ctx)=>{
 	let queryID = cb.id;
 	let gameURL = getGameURL(urlName, queryID);
 
+	console.log(gameURL);
+
 	if(gameURL){
 		queries[queryID] = cb;
 		console.log(queryID);
@@ -105,12 +107,19 @@ let getGameURL = (nm, queryID) => {
 //================SERVER QUERIES FOR SETTLING HIGHSCORES=================//
 //TODO change to post
 server.get("/highscore/:game/:score", function(req, res, next) {
+	console.log("Got something!");
+
 	if (!Object.hasOwnProperty.call(queries, req.query.id)) return next();
 
 	let query = queries[req.query.id];
 	let options;
 
+	console.log(req.params);
+
 	let gameName = req.params.game;
+	let gameScore = parseInt(req.params.score);
+
+	console.log(gameName);
 
 	if(!validGames.find(el => el === gameName)){
 		console.log(gameName+" Game not found");
@@ -119,17 +128,22 @@ server.get("/highscore/:game/:score", function(req, res, next) {
 
 	if (query.message) {
 		//TODO: Might have to change
-		options = {
-			chat_id: query.message.chat.id,
-			message_id: query.message.message_id
-		};
+		bot.telegram.setGameScore(query.from.id, gameScore, query.message.chat_id, query.message.message_id)
+			.then((score) =>{
+			    console.log('Leaderboard: '+JSON.stringify(score))
+			}).catch((err) =>{
+			    console.log('[ERROR] '+err)
+			})
 	} else {
-		options = {
-			inline_message_id: query.inline_message_id
-		};
+		bot.telegram.setGameScore(query.from.id, gameScore, query.message.inline_message_ids)
+			.then((score) =>{
+			    console.log('Leaderboard: '+JSON.stringify(score))
+			}).catch((err) =>{
+			    console.log('[ERROR] '+err)
+			})
 	}
 
-	bot.setGameScore(query.from.id, parseInt(req.params.score), options);
+
 });
 //================EXPORT BOT=================//
 module.exports = bot;
