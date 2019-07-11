@@ -22,7 +22,9 @@ const bot = new Telegraf(process.env.BOT_TOKEN, { username: "SamStudiosBot" });
 bot.use(Telegraf.log());
 
 //Express Server to Handle Score Request from games
-const server = require('express');
+const express = require('express');
+
+const server = express();
 const port = process.env.PORT || 5000;
 let queries = {};
 
@@ -131,6 +133,8 @@ server.get("/highscore/:game/:score", function(req, res, next) {
 });
 //================EXPORT BOT=================//
 module.exports = bot;
+
+server.listen(port);
 
 //================MISC. FUNCTIONS=================//
 //Logging
