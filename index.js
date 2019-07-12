@@ -25,6 +25,7 @@ bot.use(Telegraf.log());
 const Router = require('router');
 const router = Router();
 const bodyParser = require('body-parser');
+const serveStatic = require('serve-static');
 
 let queries = {};
 
@@ -100,11 +101,13 @@ let getGameURL = (nm, queryID) => {
 		//Only consider the special cases
 		//case: ?? return ??
 		default:
-			return "https://samleo8.github.io/"+nm+"?id="+queryID;
+			return "${process.env.NOW_URL}/${nm}/?id="+queryID;
 	}
 }
 
 //================SERVER QUERIES FOR SETTLING HIGHSCORES=================//
+router.use(serveStatic('public'));
+
 const scoreRoute = router.route('/score');
 scoreRoute.all(bodyParser.json());
 
