@@ -101,7 +101,7 @@ let getGameURL = (nm, queryID) => {
 		//Only consider the special cases
 		//case: ?? return ??
 		default:
-			return "${process.env.NOW_URL}/${nm}/index.html?id="+queryID;
+			return `${process.env.NOW_URL}/${nm}/index.html?id=${queryID}`;
 	}
 }
 
