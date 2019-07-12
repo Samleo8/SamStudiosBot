@@ -4557,6 +4557,28 @@ var SoaringSheepGame = function(){
 
 		console.log("GAME OVER!\nScore: "+this.score+"\nHighscore: "+this.highscore+"\n");
 
+		//TELEGRAM: SEND SCORE OVER TO TELEGRAM BOT FOR PROCESSING
+		if(isTelegram()){
+			console.log("Current game is telegram!");
+
+			var playerid = (new URL(location.href)).searchParams.get("id");
+
+			// Submit highscore to Telegram via POST request
+			var url = "/score";
+			var info = {
+				"score": this.score,
+				"id": playerid,
+				"game": "SoaringSheep"
+			}
+
+			//BUG: solve issue to do with cross origin
+			var request = new window.XMLHttpRequest();
+			request.open('POST', url, true);
+
+			request.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
+			request.send(JSON.stringify(info))
+		}
+
         //ACHIEVEMENT: SCORE/SCORE_TIMES
         for(i=0;i<this.achievements.single.score.length;i++){
             if(this.score>=this.achievements.single.score[i].value){
@@ -5323,6 +5345,11 @@ function isApp(){
 function isAndroid(try_anyway){
     if(_isAndroid!=null && !try_anyway) return _isAndroid;
     else return _isAndroid=(isApp() && (device.platform.toUpperCase() === 'ANDROID'));
+}
+
+function isTelegram() {
+	return !!window.TelegramGameProxy;
+	//return window.location.href.indexOf("id=")!=-1;
 }
 
 function MobileCheck() {
