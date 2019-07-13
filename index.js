@@ -106,7 +106,7 @@ let getGameURL = (nm, queryID) => {
 }
 
 //================SERVER QUERIES FOR SETTLING HIGHSCORES=================//
-router.use(serveStatic('public'));
+router.use(serveStatic('static'));
 
 const scoreRoute = router.route('/score');
 scoreRoute.all(bodyParser.json());
