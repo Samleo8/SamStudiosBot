@@ -1,15 +1,9 @@
-/*
-CREATING BIBLE QUIZZLE TELEGRAM BOT USING telegraf LIBRARY.
-
-REFERENCES:
-- https://thedevs.network/blog/build-a-simple-telegram-bot-with-node-js
-- https://www.sohamkamani.com/blog/2016/09/21/making-a-telegram-bot/
-*/
-
 /* RUNNING IN NODE JS:
 1) now -e BOT_TOKEN='633536414:AAENJwkQwYN3TGOe3LmFw2VyJFr8p7dU9II' --public
 2) npm start
 (Note that (2) will run (1) as defined in the start script)
+
+Bot token has also been revoked and replaced by Now secrets accordingly
 */
 
 //================LIBRARIES AND VARIABLES=================//
@@ -26,6 +20,9 @@ const Router = require('router');
 const router = Router();
 const bodyParser = require('body-parser');
 const serveStatic = require('serve-static');
+
+const express = require('express');
+const app = express();
 
 let queries = {};
 
