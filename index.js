@@ -37,9 +37,9 @@ bot.on('callback_query', (ctx)=>{
 	let urlName = cb.game_short_name;
 
 	let _data = {
-		"userID": cb.from.id,
+		"userID": ctx.from.id,
+		"chatID": ctx.chat.id
 		"messageID": cb.message.message_id,
-		"chatID": cb.message.chat.id
 	};
 	//TODO: check if need inline_message_id support (unlikely)
 
