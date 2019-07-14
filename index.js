@@ -25,8 +25,6 @@ const finalhandler = require('finalhandler')
 //const express = require('express');
 //const app = express();
 
-let queries = {};
-
 //Callback Queries
 bot.on('callback_query', (ctx)=>{
 	let cb = ctx.callbackQuery;
@@ -39,19 +37,17 @@ bot.on('callback_query', (ctx)=>{
 	let urlName = cb.game_short_name;
 
 	let _data = {
-		"user_id": cb.from.id,
-		"message_id": cb.message.message_id,
-		"chat_id": cb.message.chat.id
+		"userID": cb.from.id,
+		"messageID": cb.message.message_id,
+		"chatID": cb.message.chat.id
 	};
 	//TODO: check if need inline_message_id support (unlikely)
-	
+
 	let gameURL = getGameURL(urlName, _data);
 
 	console.log(gameURL);
 
 	if(gameURL){
-		queries[queryID] = cb;
-		console.log(queryID);
 		return ctx.answerGameQuery(gameURL);
 	}
 	else{ //error or not found
@@ -105,20 +101,18 @@ let getGameURL = (nm, data) => {
 		//Only consider the special cases
 		//case: ?? return ??
 		default:
-			return `${process.env.NOW_URL}/${nm}/index.html?userID=${data.user_id}&chatID=${data.chat_id}&messageID=${data.message_id}`;
+			return `${process.env.NOW_URL}/${nm}/index.html?userID=${data.userID}&chatID=${data.chatID}&messageID=${data.messageID}`;
 	}
 }
 
 //================SERVER QUERIES FOR SETTLING HIGHSCORES=================//
-router.use(serveStatic(/*__dirname + '/' + */'static'));
+router.use(serveStatic('static'));
 
 const scoreRoute = router.route('/score');
 scoreRoute.all(bodyParser.json());
 
 scoreRoute.post((req, res, next) => {
 	console.log("Got something!");
-
-	if (!Object.hasOwnProperty.call(queries, req.body.id)) return next();
 
 	let gameName = req.body.game;
 	let gameScore = parseInt(req.body.score);
@@ -130,20 +124,9 @@ scoreRoute.post((req, res, next) => {
 		return next();
 	}
 
-	if (req.body.chat_id) {
+	if (req.body.chatID) {
 		//TODO: Might have to change
-		bot.telegram.setGameScore(req.body.user_id, gameScore, req.body.chat_id, req.body.message_id)
-			.then((score) =>{
-			    console.log('Leaderboard: '+JSON.stringify(score));
-				res.statusCode = 200;
-				res.end();
-			}).catch((err) =>{
-			    console.log('[ERROR] '+err);
-				res.statusCode = err.code || 500;
-				res.end(err.description);
-			})
-	} else {
-		bot.telegram.setGameScore(req.body.user_id, gameScore, req.body.inline_message_id)
+		bot.telegram.setGameScore(req.body.userID, gameScore, req.body.chatID, req.body.messageID)
 			.then((score) =>{
 			    console.log('Leaderboard: '+JSON.stringify(score));
 				res.statusCode = 200;
