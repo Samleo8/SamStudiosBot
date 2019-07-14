@@ -20,9 +20,10 @@ const Router = require('router');
 const router = Router();
 const bodyParser = require('body-parser');
 const serveStatic = require('serve-static');
+const finalhandler = require('finalhandler')
 
-const express = require('express');
-const app = express();
+//const express = require('express');
+//const app = express();
 
 let queries = {};
 
@@ -103,9 +104,9 @@ let getGameURL = (nm, queryID) => {
 }
 
 //================SERVER QUERIES FOR SETTLING HIGHSCORES=================//
-router.use(serveStatic(__dirname + '/static'));
+router.use(serveStatic(/*__dirname + '/' + */'static'));
 
-const scoreRoute = router.route(__dirname + '/score');
+const scoreRoute = router.route('/score');
 scoreRoute.all(bodyParser.json());
 
 scoreRoute.post((req, res, next) => {
@@ -151,7 +152,11 @@ scoreRoute.post((req, res, next) => {
 	}
 });
 //================EXPORT BOT=================//
-module.exports = bot;
+//module.exports = bot;
+module.exports = {
+	botHandler: bot,
+	requestHandler: (req, res) => router(req, res, finalhandler(req, res))
+}
 
 //server.listen(port);
 
