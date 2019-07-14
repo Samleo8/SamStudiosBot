@@ -4561,15 +4561,18 @@ var SoaringSheepGame = function(){
 		if(isTelegram()){
 			console.log("Current game is telegram!");
 
-			var playerid = (new URL(location.href)).searchParams.get("id");
-
 			// Submit highscore to Telegram via POST request
 			var url = "/score";
 			var info = {
 				"score": this.score,
-				"id": playerid,
 				"game": "SoaringSheep"
 			}
+
+			//Add into the `info` object all the data from the GET params in the URL
+			(new URL(location.href)).searchParams.forEach((value, key)=>{
+				console.log(key,":",value);
+				info[key] = value;
+			});
 
 			//BUG: solve issue to do with cross origin
 			var request = new window.XMLHttpRequest();
