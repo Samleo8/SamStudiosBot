@@ -101,7 +101,7 @@ let getGameURL = (nm, data) => {
 		//Only consider the special cases
 		//case: ?? return ??
 		default:
-			return `${process.env.NOW_URL}/${nm}/index.html?userID=${data.userID}&chatID=${data.chatID}&messageID=${data.messageID}`;
+			return `${process.env.NOW_URL}/${nm}/?userID=${data.userID}&chatID=${data.chatID}&messageID=${data.messageID}`;
 	}
 }
 
