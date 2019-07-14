@@ -4572,12 +4572,10 @@ var SoaringSheepGame = function(){
 			var sParams = (new URL(location.href)).searchParams;
 
 			sParams.forEach((value, key)=>{
-				console.log(info);
-				console.log(key,":",value);
 				info[key] = value;
 			});
 
-			console.log(sParams, info);
+			console.log(info);
 
 			//In order to circumvent cross-origin issue, have to host within now.sh (which can be painfully slow)
 			var request = new window.XMLHttpRequest();
