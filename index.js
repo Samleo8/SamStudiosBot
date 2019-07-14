@@ -38,8 +38,14 @@ bot.on('callback_query', (ctx)=>{
 
 	let urlName = cb.game_short_name;
 
-	let queryID = cb.id;
-	let gameURL = getGameURL(urlName, queryID);
+	let _data = {
+		"user_id": cb.from.id,
+		"message_id": cb.message.message_id,
+		"chat_id": cb.message.chat.id
+	};
+	//TODO: check if need inline_message_id support (unlikely)
+	
+	let gameURL = getGameURL(urlName, _data);
 
 	console.log(gameURL);
 
@@ -90,7 +96,7 @@ bot.command('start', (ctx)=>{
 });
 
 //Get Game URL
-let getGameURL = (nm, queryID) => {
+let getGameURL = (nm, data) => {
 	let found = validGames.find(el => el === nm);
 
 	if(!found) return false;
@@ -99,7 +105,7 @@ let getGameURL = (nm, queryID) => {
 		//Only consider the special cases
 		//case: ?? return ??
 		default:
-			return `${process.env.NOW_URL}/${nm}/index.html?id=${queryID}`;
+			return `${process.env.NOW_URL}/${nm}/index.html?userID=${data.user_id}&chatID=${data.chat_id}&messageID=${data.message_id}`;
 	}
 }
 
@@ -114,8 +120,6 @@ scoreRoute.post((req, res, next) => {
 
 	if (!Object.hasOwnProperty.call(queries, req.body.id)) return next();
 
-	let query = queries[req.body.id];
-
 	let gameName = req.body.game;
 	let gameScore = parseInt(req.body.score);
 
@@ -126,9 +130,9 @@ scoreRoute.post((req, res, next) => {
 		return next();
 	}
 
-	if (query.message) {
+	if (req.body.chat_id) {
 		//TODO: Might have to change
-		bot.telegram.setGameScore(query.from.id, gameScore, query.message.chat_id, query.message.message_id)
+		bot.telegram.setGameScore(req.body.user_id, gameScore, req.body.chat_id, req.body.message_id)
 			.then((score) =>{
 			    console.log('Leaderboard: '+JSON.stringify(score));
 				res.statusCode = 200;
@@ -139,7 +143,7 @@ scoreRoute.post((req, res, next) => {
 				res.end(err.description);
 			})
 	} else {
-		bot.telegram.setGameScore(query.from.id, gameScore, query.message.inline_message_id)
+		bot.telegram.setGameScore(req.body.user_id, gameScore, req.body.inline_message_id)
 			.then((score) =>{
 			    console.log('Leaderboard: '+JSON.stringify(score));
 				res.statusCode = 200;
