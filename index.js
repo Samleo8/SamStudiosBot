@@ -37,11 +37,11 @@ bot.on('callback_query', (ctx)=>{
 	let urlName = cb.game_short_name;
 
 	//console.log("CTX", JSON.stringify(ctx, null, 2));
-	console.log(ctx.update_id, ctx.chat_instance);
+	console.log(cb.update_id, cb.chat_instance);
 
 	let _data = {
 		"userID": ctx.from.id,
-		"chatID": ctx.update_id,//.chat_instance, //ctx.chat.id,
+		"chatID": cb.update_id,//.chat_instance, //ctx.chat.id,
 		"messageID": cb.message.message_id,
 	};
 	//TODO: check if need inline_message_id support (unlikely)
