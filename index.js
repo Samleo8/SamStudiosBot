@@ -135,9 +135,11 @@ scoreRoute.post((req, res, next) => {
 		return next();
 	}
 
+	console.log( req.body.inlineMessageID, req.body.chatID, req.body.messageID );
+
 	//TODO: Might have to change
-	bot.telegram.setGameScore(req.body.userID, gameScore, req.body.inlineMessageID, req.body.chatID, req.body.messageID)
-		.then((score) =>{
+	bot.telegram.setGameScore(req.body.userID, gameScore, req.body.inlineMessageID, req.body.chatID, req.body.messageID);
+		/*.then((score) =>{
 			console.log('Leaderboard: '+JSON.stringify(score));
 			res.statusCode = 200;
 			res.end();
@@ -145,7 +147,7 @@ scoreRoute.post((req, res, next) => {
 			console.log('[ERROR] '+err);
 			res.statusCode = err.code || 500;
 			res.end(err.description);
-		})
+		})*/
 
 	/*
 	if (req.body.chatID) {
@@ -174,7 +176,7 @@ scoreRoute.post((req, res, next) => {
 				res.end(err.description);
 			})
 	}
-	//*?
+	//*/
 });
 //================EXPORT BOT=================//
 //module.exports = bot;
