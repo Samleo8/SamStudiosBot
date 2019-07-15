@@ -135,9 +135,22 @@ scoreRoute.post((req, res, next) => {
 		return next();
 	}
 
+	//TODO: Might have to change
+	bot.telegram.setGameScore(req.body.userID, gameScore, req.body.inlineMessageID, req.body.chatID, req.body.messageID)
+		.then((score) =>{
+			console.log('Leaderboard: '+JSON.stringify(score));
+			res.statusCode = 200;
+			res.end();
+		}).catch((err) =>{
+			console.log('[ERROR] '+err);
+			res.statusCode = err.code || 500;
+			res.end(err.description);
+		})
+
+	/*
 	if (req.body.chatID) {
 		//TODO: Might have to change
-		bot.telegram.setGameScore(req.body.userID, gameScore, req.body.chatID, req.body.messageID)
+		bot.telegram.setGameScore(req.body.userID, gameScore, req.body.inlineMessageID, req.body.chatID, req.body.messageID)
 			.then((score) =>{
 			    console.log('Leaderboard: '+JSON.stringify(score));
 				res.statusCode = 200;
@@ -161,6 +174,7 @@ scoreRoute.post((req, res, next) => {
 				res.end(err.description);
 			})
 	}
+	//*?
 });
 //================EXPORT BOT=================//
 //module.exports = bot;
