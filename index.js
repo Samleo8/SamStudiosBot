@@ -25,7 +25,7 @@ const finalhandler = require('finalhandler')
 //const express = require('express');
 //const app = express();
 
-//Callback Queries
+//Callback Queries (Primary query handler)
 bot.on('callback_query', (ctx)=>{
 	let cb = ctx.callbackQuery;
 
@@ -36,13 +36,10 @@ bot.on('callback_query', (ctx)=>{
 
 	let urlName = cb.game_short_name;
 
-	//console.log("CTX", JSON.stringify(ctx, null, 2));
-	//console.log(cb.message.chat.id, cb.chat_instance, ctx.chat.id);
-
+	//TODO: Get game highscores and use it for the app
 	let _data = {
 		"userID": ctx.from.id
 	};
-	//TODO: Need inline_message_id support!
 
 	if(cb.inline_message_id){
 		_data["inlineMessageID"] = cb.inline_message_id;
@@ -64,7 +61,7 @@ bot.on('callback_query', (ctx)=>{
 	}
 });
 
-//Inline Queries
+//Inline Queries (ie which game to select)
 const validGames = [ "SoaringSheep" ];
 const inlineGameButtons = validGames.map((nm) => Markup.callbackButton(
 	nm.replace(/([a-z])([A-Z])/g, '$1 $2').replace(/([A-Z])([A-Z][a-z])/g, '$1 $2'),
@@ -72,8 +69,6 @@ const inlineGameButtons = validGames.map((nm) => Markup.callbackButton(
 ));
 
 bot.on('inline_query', (ctx)=>{
-	//log(JSON.stringify(ctx.inlineQuery,null,2), "QUERY");
-
 	let _id = 0;
 	let qry = ctx.inlineQuery.query.toLowerCase();
 
@@ -123,23 +118,17 @@ const scoreRoute = router.route('/score');
 scoreRoute.all(bodyParser.json());
 
 scoreRoute.post((req, res, next) => {
-	console.log("Got something!");
-
 	let gameName = req.body.game;
-	let gameScore = parseInt(req.body.score);
-
-	console.log(gameName+" "+gameScore);
 
 	if(!validGames.find(el => el === gameName)){
 		console.log(gameName+" Game not found");
 		return next();
 	}
 
-	console.log( req.body.inlineMessageID, req.body.chatID, req.body.messageID );
-
-	//TODO: Might have to change
-	bot.telegram.setGameScore(req.body.userID, gameScore, req.body.inlineMessageID, req.body.chatID, req.body.messageID);
-		/*.then((score) =>{
+	//Set Game Score accordingly
+	//TODO: Handle errors better.
+	bot.telegram.setGameScore(req.body.userID, req.body.score, req.body.inlineMessageID, req.body.chatID, req.body.messageID, true)
+		.then((score) =>{
 			console.log('Leaderboard: '+JSON.stringify(score));
 			res.statusCode = 200;
 			res.end();
@@ -147,36 +136,7 @@ scoreRoute.post((req, res, next) => {
 			console.log('[ERROR] '+err);
 			res.statusCode = err.code || 500;
 			res.end(err.description);
-		})*/
-
-	/*
-	if (req.body.chatID) {
-		//TODO: Might have to change
-		bot.telegram.setGameScore(req.body.userID, gameScore, req.body.inlineMessageID, req.body.chatID, req.body.messageID)
-			.then((score) =>{
-			    console.log('Leaderboard: '+JSON.stringify(score));
-				res.statusCode = 200;
-				res.end();
-			}).catch((err) =>{
-			    console.log('[ERROR] '+err);
-				res.statusCode = err.code || 500;
-				res.end(err.description);
-			})
-	}
-	else{
-		//TODO: Might have to change
-		bot.telegram.setGameScore(req.body.userID, gameScore, req.body.inlineMessageID)
-			.then((score) =>{
-			    console.log('Leaderboard: '+JSON.stringify(score));
-				res.statusCode = 200;
-				res.end();
-			}).catch((err) =>{
-			    console.log('[ERROR] '+err);
-				res.statusCode = err.code || 500;
-				res.end(err.description);
-			})
-	}
-	//*/
+		});
 });
 //================EXPORT BOT=================//
 //module.exports = bot;
@@ -185,8 +145,6 @@ module.exports = {
 	requestHandler: (req, res) => router(req, res, finalhandler(req, res))
 }
 
-//server.listen(port);
-
 //================MISC. FUNCTIONS=================//
 //Logging
 log = (msg, type)=>{
@@ -194,7 +152,6 @@ log = (msg, type)=>{
 
 	console.log("["+type+"] "+msg);
 }
-
 
 //Get random integer: [min,max]
 getRandomInt = (min, max)=>{
@@ -254,32 +211,3 @@ String.prototype.fromTitleCase = function() {
     str = str.replace(/([A-Z])([A-Z][a-z])/g, '$1 $2')
     return str;
 }
-
-/*CONVERSION OF EXCEL QUESTIONS TO JSON:
-
-//Array Creation of JSON formatted q&a
-a = [ (_input_) ]
-
-arr = []; keys = ["question","answer","categories","reference"]; for(i in a){
-	obj = {};
-	b = a[i].split("\t");
-	for(j=0;j<keys.length;j++){
-		if(j!=2) obj[keys[j]] = b[j].toString();
-		else obj[keys[j]] = b[j].toLowerCase().split(", ").join(",").split(" ").join("_").split("/").join("_").split(",");
-	} arr.push(obj);
-	//console.log(JSON.stringify(obj,null,2));
-}
-
-console.log(JSON.stringify(arr,null,2));
-
-//Formatting for easier copying
-x = JSON.stringify(arr);
-for(i in keys){
-	k = keys[i].toString();
-	r = new RegExp('"'+k+'":',"gi");
-	x = x.replace(r,'\n\t"'+k+'":')
-}
-x = x.split("[{").join("{").split("}]").join("\n}");
-x.split("},{").join("\n},\n{");
-
-*/
