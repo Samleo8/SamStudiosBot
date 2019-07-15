@@ -4575,8 +4575,6 @@ var SoaringSheepGame = function(){
 				info[key] = value;
 			});
 
-			console.log(info);
-
 			//In order to circumvent cross-origin issue, have to host within now.sh (which can be painfully slow)
 			var request = new window.XMLHttpRequest();
 			request.open('POST', url, true);

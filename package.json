@@ -1,6 +1,6 @@
 {
 	"name": "SamStudiosBot",
-	"version": "1.2.0",
+	"version": "1.5.1",
 	"description": "Telegram bot for Sam's games",
 	"main": "index.js",
 	"scripts": {
