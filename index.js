@@ -51,8 +51,6 @@ bot.on('callback_query', (ctx)=>{
 
 	let gameURL = getGameURL(urlName, _data);
 
-	console.log(gameURL);
-
 	if(gameURL){
 		return ctx.answerGameQuery(gameURL);
 	}
