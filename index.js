@@ -123,6 +123,8 @@ scoreRoute.post((req, res, next) => {
 		return next();
 	}
 
+        console.log("Got something", gameName, req.body.score);
+
 	//Set Game Score accordingly
 	//TODO: Handle errors better.
 	bot.telegram.setGameScore(req.body.userID, req.body.score, req.body.inlineMessageID, req.body.chatID, req.body.messageID, true)
