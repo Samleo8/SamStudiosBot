@@ -37,14 +37,20 @@ bot.on('callback_query', (ctx)=>{
 	let urlName = cb.game_short_name;
 
 	//console.log("CTX", JSON.stringify(ctx, null, 2));
-	console.log(cb.message.chat.id, cb.chat_instance, ctx.chat.id);
+	//console.log(cb.message.chat.id, cb.chat_instance, ctx.chat.id);
 
 	let _data = {
-		"userID": ctx.from.id,
-		"chatID": ctx.chat.id,
-		"messageID": cb.message.message_id,
+		"userID": ctx.from.id
 	};
-	//TODO: check if need inline_message_id support (unlikely)
+	//TODO: Need inline_message_id support!
+
+	if(cb.inline_message_id){
+		_data["inlineMessageID"] = cb.inline_message_id;
+	}
+	else {
+		_data["chatID"] = ctx.chat.id;
+		_data["messageID"] = cb.message.message_id;
+	}
 
 	let gameURL = getGameURL(urlName, _data);
 
@@ -100,11 +106,13 @@ let getGameURL = (nm, data) => {
 
 	if(!found) return false;
 
+	let dataString = (data.inlineMessageID)?`&inlineMessageID=${data.inlineMessageID}`:`&chatID=${data.chatID}&messageID=${data.messageID}`;
+
 	switch (nm) {
 		//Only consider the special cases
 		//case: ?? return ??
 		default:
-			return `${process.env.NOW_URL}/${nm}/?userID=${data.userID}&chatID=${data.chatID}&messageID=${data.messageID}`;
+			return `${process.env.NOW_URL}/${nm}/?userID=${data.userID}`+dataString;
 	}
 }
 
@@ -130,6 +138,19 @@ scoreRoute.post((req, res, next) => {
 	if (req.body.chatID) {
 		//TODO: Might have to change
 		bot.telegram.setGameScore(req.body.userID, gameScore, req.body.chatID, req.body.messageID)
+			.then((score) =>{
+			    console.log('Leaderboard: '+JSON.stringify(score));
+				res.statusCode = 200;
+				res.end();
+			}).catch((err) =>{
+			    console.log('[ERROR] '+err);
+				res.statusCode = err.code || 500;
+				res.end(err.description);
+			})
+	}
+	else{
+		//TODO: Might have to change
+		bot.telegram.setGameScore(req.body.userID, gameScore, req.body.inlineMessageID)
 			.then((score) =>{
 			    console.log('Leaderboard: '+JSON.stringify(score));
 				res.statusCode = 200;
