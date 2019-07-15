@@ -36,7 +36,8 @@ bot.on('callback_query', (ctx)=>{
 
 	let urlName = cb.game_short_name;
 
-	console.log("CTX", JSON.stringify(ctx, null, 2));
+	//console.log("CTX", JSON.stringify(ctx, null, 2));
+	console.log(ctx.update_id, ctx.chat_instance);
 
 	let _data = {
 		"userID": ctx.from.id,
