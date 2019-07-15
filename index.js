@@ -117,12 +117,6 @@ scoreRoute.all(bodyParser.json());
 
 scoreRoute.post((req, res, next) => {
 	let gameName = req.body.game;
-<<<<<<< HEAD
-	let gameScore = parseInt(req.body.score);
-
-	console.log(JSON.stringify(req.body));
-=======
->>>>>>> 07d684851affea5843d5712e2778894979415316
 
 	if(!validGames.find(el => el === gameName)){
 		console.log(gameName+" Game not found");
