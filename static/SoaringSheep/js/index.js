@@ -113,7 +113,7 @@ var SoaringSheepGame = function(){
 			"keys":["S".charCodeAt()], //S
 			"callback":"showShop"
 		}
-	}
+	};
 
 	this.hero = null;
 	this.heroShield = null;
@@ -283,7 +283,8 @@ var SoaringSheepGame = function(){
 			"cost":100,
 			"value":10
 		}
-	}
+	};
+
 	this.upgradesSection = {};
 
 	//--Powerups
@@ -400,7 +401,7 @@ var SoaringSheepGame = function(){
 			"purchased":false,
 			"activated":false
 		}
-	}
+	};
 
 	this.goldenSheepBonus = 10;
 	this.crownBonus = 1;
@@ -454,7 +455,7 @@ var SoaringSheepGame = function(){
 		"Every score above 10 gives you coins proportional to your score",
 		"Hats and capes do not affect your sheep's hitbox",
 		"Some accessories have special abilities! Equip away!"
-	]
+	];
 
 	//Google Play
 	this.isLoggedIn = false;
@@ -469,7 +470,7 @@ var SoaringSheepGame = function(){
 			"score":{}
 		},
 		"others":[]
-	}
+	};
 
 	//For generating achievements object:
 	/*
