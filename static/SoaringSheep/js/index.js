@@ -441,22 +441,19 @@ var SoaringSheepGame = function(){
 	this.shareButton = null;
 
 	this.tips = [
-		"Did you know about the achievements under Google Play Games?",
-		"Watching the ad after gaining a >15 highscore earns you coins",
+		"Did you know that Soaring Sheep is on the Google Play Store?",
+		"Did you know that Soaring Sheep is on the Google Play Store?",
+		"Soaring Sheep on Google Play has more features! Download now!",
+		"Soaring Sheep on Google Play has more features! Download now!",
 		"Upgrade your sheep in the store to improve your highscore",
-		"Log into Google Play Games to trash your friends' highscores",
 		"Smashing into a spike with a shield destroys both the shield and the spike",
 		"Smashing into a spike with a shield collects its attached powerup",
 		"Customise your sheep's appearance using coins in the store",
 		"Coins can be used to upgrade or customise your sheep!",
-		"Earn coins by watching ads or collecting them as powerups",
 		"You can still die from running into a frozen spike, so watch out!",
-		"Reviving gives you an opportunity to crush your friends' highscores",
 		"Every score above 10 gives you coins proportional to your score",
-		"Complete achievements and earn coins!",
 		"Hats and capes do not affect your sheep's hitbox",
 		"Some accessories have special abilities! Equip away!"
-		//,"Taps in quick succession give your sheep a boost"
 	]
 
 	//Google Play
