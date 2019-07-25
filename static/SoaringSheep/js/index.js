@@ -36,16 +36,11 @@ var app = {
 		document.addEventListener('online', this.onConnectionChange.bind(this) );
 		document.addEventListener('offline', this.onConnectionChange.bind(this) );
 
-		if(isApp())
-			document.addEventListener('deviceready', this.onDeviceReady.bind(this), false);
-		else
-			window.addEventListener('DOMContentLoaded', this.onDeviceReady.bind(this), false);
+		window.addEventListener('DOMContentLoaded', this.onDeviceReady.bind(this), false);
 	},
 
 	onDeviceReady: function() {
-		console.log((isApp())?"Device Ready!":"DOM Loaded...");
-
-		//GPlay = new GooglePlayServices();
+		console.log("DOM Loaded...");
 
 		FastClick.attach(document.body);
 		Game.initStage();
@@ -113,7 +108,7 @@ var SoaringSheepGame = function(){
 			"keys":["S".charCodeAt()], //S
 			"callback":"showShop"
 		}
-	};
+	}
 
 	this.hero = null;
 	this.heroShield = null;
@@ -283,8 +278,7 @@ var SoaringSheepGame = function(){
 			"cost":100,
 			"value":10
 		}
-	};
-
+	}
 	this.upgradesSection = {};
 
 	//--Powerups
@@ -401,7 +395,7 @@ var SoaringSheepGame = function(){
 			"purchased":false,
 			"activated":false
 		}
-	};
+	}
 
 	this.goldenSheepBonus = 10;
 	this.crownBonus = 1;
@@ -442,20 +436,23 @@ var SoaringSheepGame = function(){
 	this.shareButton = null;
 
 	this.tips = [
-		"Did you know that Soaring Sheep is on the Google Play Store?",
-		"Did you know that Soaring Sheep is on the Google Play Store?",
-		"Soaring Sheep on Google Play has more features! Download now!",
-		"Soaring Sheep on Google Play has more features! Download now!",
+		"Did you know about the achievements under Google Play Games?",
+		"Watching the ad after gaining a >15 highscore earns you coins",
 		"Upgrade your sheep in the store to improve your highscore",
+		"Log into Google Play Games to trash your friends' highscores",
 		"Smashing into a spike with a shield destroys both the shield and the spike",
 		"Smashing into a spike with a shield collects its attached powerup",
 		"Customise your sheep's appearance using coins in the store",
 		"Coins can be used to upgrade or customise your sheep!",
+		"Earn coins by watching ads or collecting them as powerups",
 		"You can still die from running into a frozen spike, so watch out!",
+		"Reviving gives you an opportunity to crush your friends' highscores",
 		"Every score above 10 gives you coins proportional to your score",
+		"Complete achievements and earn coins!",
 		"Hats and capes do not affect your sheep's hitbox",
 		"Some accessories have special abilities! Equip away!"
-	];
+		//,"Taps in quick succession give your sheep a boost"
+	]
 
 	//Google Play
 	this.isLoggedIn = false;
@@ -470,7 +467,7 @@ var SoaringSheepGame = function(){
 			"score":{}
 		},
 		"others":[]
-	};
+	}
 
 	//For generating achievements object:
 	/*
@@ -1180,16 +1177,9 @@ var SoaringSheepGame = function(){
 
 		window.addEventListener("keyup", this.keyEvent.bind(this), false);
 
-		if(isApp()){
-			console.log("Added pause and resume event listeners");
-			document.addEventListener("resume", this.appFocus.bind(this), false);
-			document.addEventListener("pause", this.appBlur.bind(this), false);
-		}
-		else{
-			console.log("Added focus and blur event listeners");
-			window.addEventListener("focus", this.appFocus.bind(this), false);
-			window.addEventListener("blur", this.appBlur.bind(this), false);
-		}
+		console.log("Added focus and blur event listeners");
+		window.addEventListener("focus", this.appFocus.bind(this), false);
+		window.addEventListener("blur", this.appBlur.bind(this), false);
 
 		//renderer.view.addEventListener((_isMobile)?"touchend":"mouseup", this.heroJump.bind(this), false);
 		renderer.view.addEventListener((_isMobile)?"touchstart":"mousedown", this.heroJump.bind(this), false);
@@ -1200,7 +1190,7 @@ var SoaringSheepGame = function(){
 	}
 
 	this.initPreload = function(){
-		var i;
+		var i, j;
 
 		//PRELOADING OF IMAGES INTO PIXI LOADER
 		this.loader = new PIXI.loaders.Loader();
@@ -1274,7 +1264,7 @@ var SoaringSheepGame = function(){
 
 			stage.addChild(this.sprites.background);
 
-			var nm;
+			var nm, i, j;
 
 			//HATS AND CAPES
 			this.sprites.hats = {};
@@ -1345,7 +1335,7 @@ var SoaringSheepGame = function(){
 			this.muteMusicButton.getChildByName("music_on").alpha = 1;
 
 			//--Text
-			textOpt = {
+			var textOpt = {
 				fontFamily: 'TimeBurnerBold',
 				fill: "0x90a4ae",
 				letterSpacing: 5,
@@ -1353,7 +1343,7 @@ var SoaringSheepGame = function(){
 				fontSize: 20
 			};
 
-			text = new PIXI.Text("MUSIC",textOpt);
+			var text = new PIXI.Text("MUSIC",textOpt);
 			text.anchor.set(0.5,0.5);
 			text.alpha = 1;
 			text.y = 55;
@@ -1515,7 +1505,6 @@ var SoaringSheepGame = function(){
 	};
 
 	this.checkAllFontsLoaded = function(success){
-
 		if(success) this.totalFontsLoaded++;
 		else this.totalFontsFailed++;
 
@@ -2315,7 +2304,7 @@ var SoaringSheepGame = function(){
 			this.sprites.background.alpha = 0;
 
 			//Sheep
-			sheep = new PIXI.Sprite(this.animations.sheep_base.frames[0]);
+			var sheep = new PIXI.Sprite(this.animations.sheep_base.frames[0]);
 			sheep.anchor.set(0.5,0.5);
 			sheep.scale.set(0.35,0.35);
 			sheep.rotation = -Math.PI/40;
@@ -3126,6 +3115,7 @@ var SoaringSheepGame = function(){
 		}
 
 		//Tab overlays
+		var i;
 		for(i=0;i<this.shopTabNames.length;i++){
 			this.shop.tabs[this.shopTabNames[i]].overlay.visible = true;
 			this.shop.tabContent[this.shopTabNames[i]].visible = false;
@@ -3677,7 +3667,7 @@ var SoaringSheepGame = function(){
 		this.saveOptions();
 	};
 
-	this.performUpgrade = function(nm,e){
+	this.performUpgrade = function(nm, e){
 		if(typeof e == "object"){
 			if(e.type=="mouseup" || e.type=="touchend"){
 				//this.preventHeroJump++;
@@ -3687,7 +3677,8 @@ var SoaringSheepGame = function(){
 		var avail = this.checkUpgradeAvailability(nm);
 		if(!avail) return;
 
-		data = this.upgrades[nm];
+		var i;
+		var data = this.upgrades[nm];
 		var trueCost = parseInt(data["cost"]*(data["increment_count"]+1));
 
 		this.incCoins(-trueCost,false);
@@ -3716,7 +3707,7 @@ var SoaringSheepGame = function(){
 	};
 
 	this.updateUpgradesPage = function(){
-		var nm, data, trueCost;
+		var nm, data, trueCost, i;
 
 		for(i in this.upgrades){
 			if(!this.upgrades.hasOwnProperty(i)) continue;
@@ -3789,6 +3780,7 @@ var SoaringSheepGame = function(){
 	this.checkUpgradeAvailability = function(specific_nm){
 		var needCheck = (specific_nm != null);
 		var ret = true;
+		var i, nm, data;
 
 		for(i in this.upgrades){
 			if(!this.upgrades.hasOwnProperty(i)) continue;
@@ -4438,7 +4430,7 @@ var SoaringSheepGame = function(){
 	};
 
 	this.togglePause = function(forcedVal,event){
-		var i;
+		var i, e;
 
 		if(!this._gameStarted) return;
 
@@ -4789,7 +4781,7 @@ var SoaringSheepGame = function(){
 				if(window.localStorage["upgrades"] != null){
 					this.upgrades = JSON.parse(window.localStorage["upgrades"]);
 
-					var nm;
+					var i, nm;
 					for(i in this.upgrades){
 						if(!this.upgrades.hasOwnProperty(i)) continue;
 
@@ -4802,7 +4794,7 @@ var SoaringSheepGame = function(){
 				window.localStorage["upgrades_fix"] = true;
 				//this.incCoins(5000,false);
 				this.saveOptions("upgrades");
-				var nm;
+				var i, nm;
 				for(i in this.upgrades){
 					if(!this.upgrades.hasOwnProperty(i)) continue;
 
@@ -4823,6 +4815,7 @@ var SoaringSheepGame = function(){
 				if(window.localStorage["achievements"] != null){
 					alert("In this latest update, all completed achievements earns you coins to use in the shop!");
 
+					var i, j;
 					//Achievement obj exists, therefore need to give the coins accordingly
 					for(i in this.achievements.single){
 						if(!this.achievements.single.hasOwnProperty(i)) continue;
@@ -4856,7 +4849,7 @@ var SoaringSheepGame = function(){
 			}
 
 			//Updates
-			var nm;
+			var i, j, nm;
 			for(i in this.updates){
 				if(!this.updates.hasOwnProperty(i)) continue;
 
@@ -5134,17 +5127,7 @@ var SoaringSheepGame = function(){
 			this.GooglePlayServices.unlockAchievement("support");
 		}
 
-		if(isApp()){
-			if(device.platform.toUpperCase() === 'ANDROID') {
-				navigator.app.loadUrl(url, { openExternal: true });
-			}
-			else if (device.platform.toUpperCase() === 'IOS') {
-				window.open(url, '_system');
-			}
-		}
-		else{
-			window.open(url, '_blank');
-		}
+		window.open(url, '_blank');
 	}
 }
 
@@ -5158,13 +5141,13 @@ function isApp(){
 	return _isApp = (forceIsApp || (typeof admob)!="undefined" || (typeof device) != "undefined");
 }
 
-function isTelegram() {
-	return !!window.TelegramGameProxy;
-}
-
 function isAndroid(try_anyway){
 	if(_isAndroid!=null && !try_anyway) return _isAndroid;
 	else return _isAndroid=(isApp() && (device.platform.toUpperCase() === 'ANDROID'));
+}
+
+function isTelegram() {
+	return !!window.TelegramGameProxy;
 }
 
 function MobileCheck() {
