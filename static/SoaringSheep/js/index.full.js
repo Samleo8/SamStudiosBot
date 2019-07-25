@@ -71,6 +71,7 @@ var app = {
 	}
 };
 
+var sheep;
 var SoaringSheepGame = function(){
 	var self = this;
 
@@ -2304,7 +2305,7 @@ var SoaringSheepGame = function(){
 			this.sprites.background.alpha = 0;
 
 			//Sheep
-			var sheep = new PIXI.Sprite(this.animations.sheep_base.frames[0]);
+			sheep = new PIXI.Sprite(this.animations.sheep_base.frames[0]);
 			sheep.anchor.set(0.5,0.5);
 			sheep.scale.set(0.35,0.35);
 			sheep.rotation = -Math.PI/40;
