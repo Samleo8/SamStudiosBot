@@ -6,6 +6,10 @@
  var _isMobile = false;
 
 //*--------UNIVERSAL FUNCTIONS--------*//
+function isTelegram() {
+	return !!window.TelegramGameProxy;
+}
+
 function isApp(){
 	if(!MobileCheck()) return false;
 
