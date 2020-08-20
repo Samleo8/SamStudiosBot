@@ -93,6 +93,7 @@ bot.command('start', (ctx)=>{
 
 //Get Game URL
 const BASE_URL = "https://samstudiosbot.herokuapp.com";
+console.log(process.env);
 
 let getGameURL = (nm, data) => {
 	let found = validGames.find(el => el === nm);
