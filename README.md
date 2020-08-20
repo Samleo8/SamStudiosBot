@@ -4,3 +4,5 @@ Telegram Bot that handles the mobile-ready games from [my website](https://samle
 
 ## Sample Games
 [<img src="img/soaringsheep.png" width="35px" /> Soaring Sheep](https://telegram.me/SamStudiosBot?game=SoaringSheep)
+
+[<img src="img/sisyphussheep.png" width="35px" /> Sisyphus Sheep](https://telegram.me/SamStudiosBot?game=SisyphusSheep)
