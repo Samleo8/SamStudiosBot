@@ -92,6 +92,8 @@ bot.command('start', (ctx)=>{
 });
 
 //Get Game URL
+const BASE_URL = "https://samstudiosbot.herokuapp.com";
+
 let getGameURL = (nm, data) => {
 	let found = validGames.find(el => el === nm);
 
@@ -103,7 +105,7 @@ let getGameURL = (nm, data) => {
 		//Only consider the special cases
 		//case: ?? return ??
 		default:
-			return `./static/${nm}/index.html?userID=${data.userID}`+dataString;
+			return `${BASE_URL}/${nm}/?userID=${data.userID}`+dataString;
 	}
 }
 
