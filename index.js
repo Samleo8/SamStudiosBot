@@ -101,12 +101,16 @@ let getGameURL = (nm, data) => {
 
 	let dataString = (data.inlineMessageID)?`&inlineMessageID=${data.inlineMessageID}`:`&chatID=${data.chatID}&messageID=${data.messageID}`;
 
+	let gameUrl = "";
+
 	switch (nm) {
 		//Only consider the special cases
 		//case: ?? return ??
 		default:
-			return `${BASE_URL}/${nm}/?userID=${data.userID}`+dataString;
+			gameUrl = `${BASE_URL}/${nm}/?userID=${data.userID}`+dataString;
 	}
+
+	return gameUrl;
 }
 
 //================SERVER QUERIES FOR SETTLING HIGHSCORES=================//
