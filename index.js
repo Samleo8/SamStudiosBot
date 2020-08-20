@@ -1,7 +1,5 @@
 /* RUNNING IN NODE JS:
-1) now -e BOT_TOKEN='633536414:AAENJwkQwYN3TGOe3LmFw2VyJFr8p7dU9II' --public
-2) npm start
-(Note that (2) will run (1) as defined in the start script)
+1) npm start
 
 Bot token has also been revoked and replaced by Now secrets accordingly
 */
