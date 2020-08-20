@@ -103,7 +103,7 @@ let getGameURL = (nm, data) => {
 		//Only consider the special cases
 		//case: ?? return ??
 		default:
-			return `${process.env.NOW_URL}/${nm}/?userID=${data.userID}`+dataString;
+			return `${process.env.HEROKU_APP_NAME}.herokuapp.com/${nm}/?userID=${data.userID}` + dataString;
 	}
 }
 
