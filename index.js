@@ -101,13 +101,14 @@ let getGameURL = (nm, data) => {
 
 	let dataString = (data.inlineMessageID)?`&inlineMessageID=${data.inlineMessageID}`:`&chatID=${data.chatID}&messageID=${data.messageID}`;
 
+	// Need https to work on mobile
 	let gameUrl = "";
 
 	switch (nm) {
 		//Only consider the special cases
 		//case: ?? return ??
 		default:
-			gameUrl = `${BASE_URL}/${nm}/?userID=${data.userID}`+dataString;
+			gameUrl = `https://${BASE_URL}/${nm}/?userID=${data.userID}` + dataString;
 	}
 
 	return gameUrl;
